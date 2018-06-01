@@ -164,10 +164,12 @@ export default {
                     });
                 }else{
                     _this.$message.error(res.Msg);
+                    _this.changeImgSrc()
                 }
             })
             .catch(function (response) {
-                console.log(response)
+                console.log(response);
+                
             });
           } else {
             return false;
