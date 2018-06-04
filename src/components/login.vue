@@ -2,7 +2,7 @@
     <div class="main">
         <el-row>
             <el-col :span="10" :offset="2" class="logos">
-                <router-link to="/index" class="logo"><img src="../assets/images/logo1.png" alt=""></router-link>
+                <router-link to="/" class="logo"><img src="../assets/images/logo1.png" alt=""></router-link>
             </el-col>
             <el-col :span="10" class="register">
                 <router-link to="/register"><el-button>注册</el-button></router-link>
@@ -17,10 +17,10 @@
                     <div class="box-card1">
                         <el-form :label-position="labelPosition"  ref="formLabelAlign" :rules="rules" label-width="80px" :model="formLabelAlign">
                             <el-form-item label="账户" prop="name">
-                                <el-input v-model="formLabelAlign.name" placeholder="请输入登录账户"></el-input>
+                                <el-input v-model.trim="formLabelAlign.name" placeholder="请输入登录账户"></el-input>
                             </el-form-item>
                             <el-form-item label="密码" prop="region">
-                                <el-input v-model="formLabelAlign.region" placeholder="请输入登录密码"></el-input>
+                                <el-input v-model.trim="formLabelAlign.region" placeholder="请输入登录密码"></el-input>
                             </el-form-item>
                             <el-form-item label="验证码" style="margin-bottom: 0px;">
                             </el-form-item>
@@ -29,7 +29,7 @@
                                     <img :src="imgSrc" alt="" @click="changeImgSrc">
                                 </el-form-item>
                                 <el-form-item label="" class="r" prop="type">
-                                    <el-input v-model="formLabelAlign.type" placeholder="请输入验证码"></el-input>
+                                    <el-input v-model.trim="formLabelAlign.type" placeholder="请输入验证码"></el-input>
                                 </el-form-item>
                             </div>
                             <el-form-item>
@@ -48,13 +48,14 @@
 <script>
 import axios from 'axios'
 import qs from "qs"
+import reg from "@/js/reg.js"
 export default {
   name: "HelloWorld",
   data() {
       var checkAccount = (rule, value, callback) => {
-        if (!this.trim(value)) {
-          return callback(new Error('账户不能为空!'));
-        }else if(!this.testAccount(value)){
+        if (value.length == 0) {
+            return callback(new Error('账户不能为空!'));
+        }else if(!reg.testAccount(value)){
             return callback(new Error('账户格式不正确,只能输入手机号!'));
         }else{
             setTimeout(() => {
@@ -63,9 +64,9 @@ export default {
         }
       };
       var validatePass = (rule, value, callback) => {
-        if (!this.trim(value)) {
-          callback(new Error('请输入密码!'));
-        }else if(!this.testPassword(value)){
+        if (value.length == 0) {
+            return callback(new Error('密码不能为空!'));
+        }else if(!reg.testPassword(value)){
             return callback(new Error('密码格式不正确!'));
         }else{
             setTimeout(() => {
@@ -74,8 +75,8 @@ export default {
         }
       };
       var checkCode = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('验证码不能为空!'));
+        if (value.length == 0) {
+            return callback(new Error('验证码不能为空!'));
         } else {
           callback();
         }
@@ -116,66 +117,42 @@ export default {
             .catch(function (response) {
             });
         },
-        trim(s){
-            return s.replace(/(\s*$)/g, "");
-        },
-        testAccount: function (val) {
-            var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
-            return myreg.test(val);
-        },
-        testPassword: function (val) {
-            var myreg = /^(\w){6,20}$/;
-            return myreg.test(val);
-        },
-        testIdCard: function (val) {
-            var myreg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-            return myreg.test(val);
-        },
-        testQQ: function (val) {
-            var myreg = /^[1-9][0-9]{3,10}$/;
-            return myreg.test(val);
-        },
-        testZFBAccount:function(val){
-            var myreg = /^(?:\w+\.?)*\w+@(?:\w+\.)+\w+|\d{9,11}$/;
-            return myreg.test(val);
-        },
-        testName:function(val){
-            var myreg = /^[\u4E00-\u9FA5]{2,4}$/;
-            return myreg.test(val);
-        },
         submitForm(formName) {
             let _this = this;
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            var data = {
-                m: "login",
-                loginname: this.formLabelAlign.name,
-                password: this.formLabelAlign.region,
-                ckcode: this.formLabelAlign.type
-            }
-            axios.post('/msg/api/mapi.aspx', qs.stringify(data))
-            .then(function (response) {
-                const res = response.data;
-                console.log(res);
-                if(res.Code == 1){
-                    _this.$message({
-                        message: '登录成功!',
-                        type: 'success'
-                    });
-                }else{
-                    _this.$message.error(res.Msg);
-                    _this.changeImgSrc()
+            this.$refs[formName].validate((valid) => {
+            if (valid) {
+                var data = {
+                    m: "login",
+                    loginname: this.formLabelAlign.name,
+                    password: this.formLabelAlign.region,
+                    ckcode: this.formLabelAlign.type
                 }
-            })
-            .catch(function (response) {
-                console.log(response);
-                
-            });
-          } else {
-            return false;
-          }
+                axios.post('/msg/api/mapi.aspx', qs.stringify(data))
+                .then(function (response) {
+                    const res = response.data;
+                    console.log(res);
+                    if(res.Code == 1){
+                        _this.$message({
+                            message: '登录成功,三秒后跳转到首页!',
+                            type: 'success'
+                        });
+                        setTimeout(() => {
+                            _this.$router.push("/");
+                        }, 3000);
+                    }else{
+                        _this.$message.error(res.Msg);
+                        _this.changeImgSrc()
+                    }
+                })
+                .catch(function (response) {
+                    console.log(response);
+                    
+                });
+            } else {
+                return false;
+            }
         });
-      }
+    }
   },
   beforeMount(){
       let _this = this;
