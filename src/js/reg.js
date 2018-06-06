@@ -25,6 +25,10 @@ var reg = {
     testName:function(val){
         var myreg = /^[\u4E00-\u9FA5]{2,4}$/;
         return myreg.test(val);
+    },
+    testNumber(val){
+        var myreg = /\D|^0/g;
+        return myreg.test(val);
     }
 }
 export default reg

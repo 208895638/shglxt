@@ -491,3 +491,18 @@ img {
 body {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+.text_blue{
+    color:#409EFF;
+}
+.success{
+    color: #67C23A;
+}
+.warning{
+    color: #E6A23C;
+}
+.danger{
+    color: #F56C6C;
+}
+.Info{
+    color: #909399;
+}

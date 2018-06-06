@@ -397,7 +397,7 @@ export default {
         }
         .postForm{
             span{
-                margin-left: -10px;
+                margin-left: -11px;
                 color: red;
             }
             .el-input{
