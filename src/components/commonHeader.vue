@@ -5,7 +5,7 @@
                 <router-link to="/" class="logo"><img src="../assets/images/logo1.png" alt=""></router-link>
             </el-col>
             <el-col :span="12" class="logout">
-                <router-link to="/login">退出登录</router-link>
+                <router-link to="/login" class="logOut" @click="logout">退出登录</router-link>
             </el-col>
         </el-row>
     </div>
@@ -22,6 +22,9 @@ export default {
     methods: {
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
+      },
+      logout(){
+          this.$store.state.userLogin = false;
       }
     }
   }

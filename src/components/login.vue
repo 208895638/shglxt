@@ -136,6 +136,8 @@ export default {
                             message: '登录成功,三秒后跳转到首页!',
                             type: 'success'
                         });
+                        //判断是否有权限进入页面
+                        // _this.$store.state.userLogin = true;
                         setTimeout(() => {
                             _this.$router.push("/");
                         }, 3000);

@@ -437,6 +437,7 @@ export default {
                                 type: 'success'
                             });
                             _this.updateSHFL = false;
+                            location.reload();
                         }else{
                             _this.$message.error(res.Msg);
                         }
@@ -451,13 +452,28 @@ export default {
         },
     },
     created () {
+        var loading;
+            axios.interceptors.request.use(config => {
+                 loading = this.$loading({
+                    lock: true,
+                    text: 'Loading',
+                    spinner: 'el-icon-loading',
+                    background: 'rgba(0, 0, 0, 0.7)'
+                });
+                
+                return config;
+            });
+
+            axios.interceptors.response.use(config => {
+                loading.close();
+                return config
+            });
         let _this = this;
         const data = {
             m: "getmerchantinfo"
         };
         axios.post('/msg/api/mapi.aspx', qs.stringify(data))
         .then(function (res) {
-           
             let msg = res.data.data;
             if(res.data.Code == 1){
                 _this.shbh = msg.MID;
@@ -483,9 +499,7 @@ export default {
             }
         })
         .catch(function (res) {
-            // const msg = res.data;
-            // _this.$message.error(res.Msg);
-            // console.log(res);
+            // console.log(this.$store.state);
         });
     }
 }
