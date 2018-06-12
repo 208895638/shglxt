@@ -29,6 +29,10 @@ var reg = {
     testNumber(val){
         var myreg = /\D|^0/g;
         return myreg.test(val);
+    },
+    testMoney(val){  //检测输入的金额
+        var myreg = /^([1-9]\d{0,9}|0)([.]?|(\.\d{1,2})?)$/;
+        return myreg.test(val);
     }
 }
 export default reg

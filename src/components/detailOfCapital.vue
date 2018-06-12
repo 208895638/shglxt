@@ -220,69 +220,8 @@ export default {
             console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
-            let _this = this;
-            _this.pindex = val;
-            var searchData;
-            if(!this.inputTimt){
-                if(this.selectVal){
-                    searchData = {
-                        m:"pagebh",
-                        btime:this.value6.split(" ")[0],
-                        etime:this.value6.split(" ")[1],
-                        btype:this.value1,
-                        pindex:this.pindex
-                    }
-                }else{
-                    searchData = {
-                        m:"pagebh",
-                        btime:this.value6.split(" ")[0],
-                        etime:this.value6.split(" ")[1],
-                        btype:0,
-                        pindex:this.pindex
-                    }
-                }
-                
-            }else{
-                if(this.selectVal){
-                    searchData = {
-                        m:"pagebh",
-                        btime:this.value6[0],
-                        etime:this.value6[1],
-                        btype:this.value1,
-                        pindex:this.pindex
-                    }
-                }else{
-                    searchData = {
-                        m:"pagebh",
-                        btime:this.value6[0],
-                        etime:this.value6[1],
-                        btype:0,
-                        pindex:this.pindex
-                    }
-                }
-                
-            }
-            console.log(searchData)
-            axios.post("/msg/api/mapi.aspx",qs.stringify(searchData))
-            .then(function(res){
-                const data = res.data;
-                if(data.Code == 1){
-                    _this.currentPage1 =data.CurIndex;
-                    _this.pageSize =data.PageSize;
-                    _this.RecordCount =data.RecordCount;
-                    _this.tableData = data.Data
-                }else{
-                    _this.$message({
-                        message: data.Msg,
-                        type: 'warn'
-                    });
-                }
-                console.log(res.data)
-            })
-            .catch(function (response) {
-                // console.log(response);
-            });
-            console.log(`当前页: ${val}`);
+            this.pindex = val;
+            this.onSubmit();
         }
     },
     created () {

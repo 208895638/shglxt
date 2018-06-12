@@ -12,7 +12,7 @@
                 active-text-color="#ffd04b"  :collapse="false">
             <el-submenu index="1" >
                 <template slot="title">
-                    <i class="iconfont icon-zhanghuguanli"></i>
+                    <i class="iconfont icon-sha"></i>
                     <span slot="title">账户管理</span>
                 </template>
                 <el-menu-item-group>
