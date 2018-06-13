@@ -243,6 +243,7 @@
 import axios from 'axios'
 import qs from "qs"
 import reg from "@/js/reg.js"
+import commonUrl from "@/js/common.js"
 export default {
     data(){
         var oldPass = (rule, value, callback) => {
@@ -359,7 +360,7 @@ export default {
                         oldp:_this.updatePassword.oldPass,
                         p:_this.updatePassword.newPass
                     };
-                    axios.post('/msg/api/mapi.aspx', qs.stringify(data))
+                    axios.post(commonUrl.apiUrl(), qs.stringify(data))
                     .then(function (response) {
                         const res = response.data;
                         console.log(res);
@@ -369,6 +370,7 @@ export default {
                                 type: 'success'
                             });
                             _this.dialogFormVisible = false;
+                            _this.getUserInfo();
                         }else{
                             _this.$message.error(res.Msg);
                             _this.changeImgSrc()
@@ -396,7 +398,7 @@ export default {
                     m: "udreturnurl",
                     url: value
                 }
-                axios.post('/msg/api/mapi.aspx', qs.stringify(data))
+                axios.post(commonUrl.apiUrl(), qs.stringify(data))
                 .then(function (response) {
                     const res = response.data;
                     console.log(res);
@@ -405,7 +407,7 @@ export default {
                             message: '修改成功!',
                             type: 'success'
                         });
-                        location.reload();
+                        _this.getUserInfo();
                     }else{
                         _this.$message.error(res.Msg);
                     }
@@ -427,7 +429,7 @@ export default {
                         raxsh:_this.shfl.rax,
                         raxminsh:_this.shfl.minRax
                     }
-                    axios.post('/msg/api/mapi.aspx', qs.stringify(data))
+                    axios.post(commonUrl.apiUrl(), qs.stringify(data))
                     .then(function (response) {
                         const res = response.data;
                         console.log(res);
@@ -437,7 +439,7 @@ export default {
                                 type: 'success'
                             });
                             _this.updateSHFL = false;
-                            location.reload();
+                            _this.getUserInfo();
                         }else{
                             _this.$message.error(res.Msg);
                         }
@@ -450,6 +452,41 @@ export default {
                 }
             });
         },
+        getUserInfo(){
+            let _this = this;
+            const data = {
+                m: "getmerchantinfo"
+            };
+            axios.post(commonUrl.apiUrl(), qs.stringify(data))
+            .then(function (res) {
+                let msg = res.data.data;
+                if(res.data.Code == 1){
+                    _this.shbh = msg.MID;
+                    _this.dlm = msg.LoginName;
+                    _this.kyye = msg.KYBalance;
+                    _this.shmc = msg.MerchantName;
+                    _this.sfzhm = msg.SFZNO;
+                    _this.lxdz = msg.Address;
+                    _this.QQ = msg.QQ;
+                    _this.zfbxm = msg.AliName;
+                    _this.zfbzh = msg.AliAccount;
+                    _this.zt = msg.Status;
+                    _this.jk = msg.APIKey;
+                    _this.jkht = msg.NotifyURL;
+                    _this.jczffl = msg.Rax;
+                    _this.shzffl = msg.SHRax;
+                    _this.shzfdz = msg.SHURL;
+                    _this.BZJBalance = msg.BZJBalance;
+                    _this.RaxMin =  msg.RaxMin;
+                    _this.SHRaxMin =  msg.SHRaxMin
+                }else{
+                    _this.$message.error(msg.Msg);
+                }
+            })
+            .catch(function (res) {
+                // console.log(this.$store.state);
+            });
+        }
     },
     created () {
         var loading;
@@ -468,39 +505,7 @@ export default {
                 loading.close();
                 return config
             });
-        let _this = this;
-        const data = {
-            m: "getmerchantinfo"
-        };
-        axios.post('/msg/api/mapi.aspx', qs.stringify(data))
-        .then(function (res) {
-            let msg = res.data.data;
-            if(res.data.Code == 1){
-                _this.shbh = msg.MID;
-                _this.dlm = msg.LoginName;
-                _this.kyye = msg.KYBalance;
-                _this.shmc = msg.MerchantName;
-                _this.sfzhm = msg.SFZNO;
-                _this.lxdz = msg.Address;
-                _this.QQ = msg.QQ;
-                _this.zfbxm = msg.AliName;
-                _this.zfbzh = msg.AliAccount;
-                _this.zt = msg.Status;
-                _this.jk = msg.APIKey;
-                _this.jkht = msg.NotifyURL;
-                _this.jczffl = msg.Rax;
-                _this.shzffl = msg.SHRax;
-                _this.shzfdz = msg.SHURL;
-                _this.BZJBalance = msg.BZJBalance;
-                _this.RaxMin =  msg.RaxMin;
-                _this.SHRaxMin =  msg.SHRaxMin
-            }else{
-                _this.$message.error(msg.Msg);
-            }
-        })
-        .catch(function (res) {
-            // console.log(this.$store.state);
-        });
+        this.getUserInfo();
     }
 }
 </script>

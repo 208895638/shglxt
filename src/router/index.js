@@ -20,7 +20,7 @@ const router = new Router({
       path: '/',
       name: 'index',
       component: index,
-      redirect: "/account",
+      redirect: "/login",
       meta: { 
         requireAuth: true
       },

@@ -49,6 +49,7 @@
 import axios from 'axios'
 import qs from "qs"
 import reg from "@/js/reg.js"
+import commonUrl from "@/js/common.js"
 export default {
   name: "HelloWorld",
   data() {
@@ -110,7 +111,7 @@ export default {
   methods: {
         changeImgSrc(){
             let _this = this;
-            axios.post('/msg/CKCode.ashx?'+Math.random, {})
+            axios.post(commonUrl.imgUrl()+'?'+Math.random, {})
             .then(function (response) {
                 _this.imgSrc = response.data;
             })
@@ -127,7 +128,7 @@ export default {
                     password: this.formLabelAlign.region,
                     ckcode: this.formLabelAlign.type
                 }
-                axios.post('/msg/api/mapi.aspx', qs.stringify(data))
+                axios.post(commonUrl.apiUrl(), qs.stringify(data))
                 .then(function (response) {
                     const res = response.data;
                     console.log(res);
@@ -139,7 +140,7 @@ export default {
                         //判断是否有权限进入页面
                         // _this.$store.state.userLogin = true;
                         setTimeout(() => {
-                            _this.$router.push("/");
+                            _this.$router.push("/account");
                         }, 3000);
                     }else{
                         _this.$message.error(res.Msg);
@@ -158,7 +159,8 @@ export default {
   },
   beforeMount(){
       let _this = this;
-      axios.post('/msg/CKCode.ashx', {})
+      console.log(commonUrl.imgUrl())
+      axios.post(commonUrl.imgUrl()+'?'+Math.random, {})
         .then(function (response) {
             _this.imgSrc = response.data;
         })

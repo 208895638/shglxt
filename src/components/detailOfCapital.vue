@@ -109,6 +109,7 @@
 <script>
 import qs from "qs"
 import axios from 'axios'
+import commonUrl from "@/js/common.js"
 var searchData;
 export default {
     data () {
@@ -191,7 +192,7 @@ export default {
                 loading.close();
                 return config
             })
-            axios.post("/msg/api/mapi.aspx",qs.stringify(searchData))
+            axios.post(commonUrl.apiUrl(),qs.stringify(searchData))
             .then(function(res){
                 const data = res.data;
                 console.log(searchData , data)
@@ -237,9 +238,10 @@ export default {
         this.startDate = year+"-"+month+"-"+date;
         this.endDate = year+"-"+month+"-"+date;
         this.value6 = this.startDate + " " +this.endDate
-        axios.post('/msg/api/mapi.aspx', qs.stringify(data1))
+        axios.post(commonUrl.apiUrl(), qs.stringify(data1))
         .then(function (response) {
             const res = response.data , msg =res.Data ;
+            console.log(data1);
             if(res.Code == 1){
                 _this.options = msg;
             }else{

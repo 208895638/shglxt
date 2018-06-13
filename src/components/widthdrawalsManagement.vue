@@ -67,13 +67,10 @@
                                     <span class="l">提现手续费</span>
                                     <em class="r" style="color:red;">{{Rax}}</em>
                                 </el-form-item>
-                                <el-form-item  >
-                                    <el-button type="primary" @click="getMoney('tixian')" style="width:100%;">提现</el-button>
-                                </el-form-item>
                             </el-form>
                             <div slot="footer" class="dialog-footer">
                                 <el-button @click="dialogFormVisible = false">取 消</el-button>
-                                <el-button type="primary" @click="submitForm('updatePassword')">确 定</el-button>
+                                <el-button type="primary" @click="getMoney('tixian')">确 定</el-button>
                             </div>
                             </el-dialog>
                     <div class="tableBox">
@@ -159,11 +156,11 @@
 import qs from "qs"
 import axios from 'axios'
 import reg from "@/js/reg.js"
+import commonUrl from "@/js/common.js"
 var searchData;
 export default {
     data () {
         var checkNum = (rule, value, callback) => {
-            console.log(value , parseFloat(value) +parseFloat(this.Rax));
             if (value.length == 0) {
                 return callback(new Error('提现金额不能为空!'));
             }else if(!reg.testMoney(value)){
@@ -230,7 +227,6 @@ export default {
     },
     filters: {
         statess(value){
-            console.log(value)
             let aa="";
             if(value == 0){
                 aa = "提现中";
@@ -301,7 +297,7 @@ export default {
                 loading.close();
                 return config
             })
-            axios.post("/msg/api/mapi.aspx",qs.stringify(searchData))
+            axios.post(commonUrl.apiUrl(),qs.stringify(searchData))
             .then(function(res){
                 const data = res.data;
                 
@@ -310,7 +306,6 @@ export default {
                     _this.pageSize =data.PageSize;
                     _this.RecordCount =data.RecordCount;
                     _this.tableData = data.Data
-                    console.log( _this.tableData)
                 }else{
                     _this.$message({
                         message: data.Msg
@@ -337,29 +332,45 @@ export default {
         getMoney(formName){
             let _this = this;
             this.$refs[formName].validate((valid) => {
-            if (valid) {
-                var data = {
-                    m:"addwithdraw" ,
-                    money:_this.tixian.tx
-                }
-                axios.post('/msg/api/mapi.aspx', qs.stringify(data))
-                .then(function (response) {
-                    const res = response.data;
-                    console.log(res);
-                    _this.$message({
-                        message: '提交成功!',
-                        type: 'success'
+                if (valid) {
+                    var data = {
+                        m:"addwithdraw" ,
+                        money:_this.tixian.tx
+                    }
+                    axios.post(commonUrl.apiUrl(), qs.stringify(data))
+                    .then(function (response) {
+                        const res = response.data;
+                        _this.$message({
+                            message: '提交成功!',
+                            type: 'success'
+                        });
+                        _this.geiUserInfo();
+                    })
+                    .catch(function (response) {
+                        const res = response.data;
+                        _this.$message.error({res});
                     });
-                })
-                .catch(function (response) {
-                    const res = response.data;
-                    console.log(response);
-                     _this.$message.error({res});
-                });
-            } else {
-                return false;
-            }
-        });
+                } else {
+                    return false;
+                }
+            });
+        },
+        geiUserInfo(){
+            const _this = this;
+            // 获取提现用户信息
+            axios.post(commonUrl.apiUrl(), qs.stringify({m:"getwithdrawrax"}))
+            .then(function(res){
+                let msg = res.data;
+                if(msg.Code == 1){
+                    _this.AliAccount = msg.AliAccount;
+                    _this.AliName = msg.AliName;
+                    _this.Balance = msg.Balance;
+                    _this.Rax = msg.Rax;
+                }
+            })
+            .catch(function(res){
+                console.log(res)
+            })
         }
     },
     created () {
@@ -375,41 +386,7 @@ export default {
         this.startDate = year+"-"+month+"-"+date;
         this.endDate = year+"-"+month+"-"+date;
         this.value6 = this.startDate + " " +this.endDate;
-
-
-        // 获取提现用户信息
-        axios.post('/msg/api/mapi.aspx', qs.stringify({m:"getwithdrawrax"}))
-        .then(function(res){
-            let msg = res.data;
-            console.log(msg)
-            if(msg.Code == 1){
-                _this.AliAccount = msg.AliAccount;
-                _this.AliName = msg.AliName;
-                _this.Balance = msg.Balance;
-                _this.Rax = msg.Rax;
-            }
-        })
-        .catch(function(res){
-            console.log(res)
-        })
-
-
-        // axios.post('/msg/api/mapi.aspx', qs.stringify(data1))
-        // .then(function (response) {
-        //     const res = response.data , msg =res.Data ;
-        //     if(res.Code == 1){
-        //         _this.options = msg;
-        //     }else{
-        //         _this.$message({
-        //             message: res.Msg,
-        //             type: 'warn'
-        //         });
-        //     }
-        // })
-        // .catch(function (response) {
-        //     // _this.$message.error(response.data.Msg);
-        // });
-        
+        this.geiUserInfo();
     }
   }
 </script>

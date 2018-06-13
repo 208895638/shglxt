@@ -117,6 +117,7 @@
 import axios from 'axios'
 import qs from "qs"
 import reg from "@/js/reg.js"
+import commonUrl from "@/js/common.js"
 var password = ''
 export default {
   name: "HelloWorld",
@@ -306,7 +307,7 @@ export default {
                     aliname:this.register.ZFBName,
                     ckcode: this.register.yzmcode
                 };
-                axios.post('/msg/api/mapi.aspx', qs.stringify(data))
+                axios.post(commonUrl.apiUrl(), qs.stringify(data))
                 .then(function (response) {
                     const res = response.data;
                     console.log(res);
@@ -338,7 +339,7 @@ export default {
   },
   beforeMount(){
       let _this = this;
-      axios.post('/msg/CKCode.ashx', {})
+      axios.post(commonUrl.imgUrl()+'?'+Math.random, {})
         .then(function (response) {
             _this.imgSrc = response.data;
         })
@@ -402,7 +403,7 @@ export default {
             }
             .el-input{
                 width: 98%;
-                margin-left: 2%;
+                margin-left: 1%;
                 vertical-align: top;
             }
             .yzm{

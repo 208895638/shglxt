@@ -49,6 +49,7 @@
 import axios from "axios"
 import qs from "qs"
 import reg from "@/js/reg.js"
+import commonUrl from "@/js/common.js"
 let timer =''
 export default {
     data () {
@@ -93,6 +94,14 @@ export default {
             return mon;
         }
     },
+    watch:{
+        dialogFormVisible(){
+            if(this.dialogFormVisible){
+            }else{
+                clearInterval(timer);
+            }
+        }
+    },
     methods: {
         sendMsg(){
             let _this = this ;
@@ -102,7 +111,7 @@ export default {
                 paytype:this.recharge
             };
             // console.log(data)
-            axios.post("/msg/api/mapi.aspx",qs.stringify(data))
+            axios.post(commonUrl.apiUrl(),qs.stringify(data))
             .then(function(res){
                 const msg = res.data;
                 console.log(msg);
@@ -151,7 +160,7 @@ export default {
                 orderno:this.order
             };
             console.log(data);
-            axios.post("/msg/api/mapi.aspx" , qs.stringify(data))
+            axios.post(commonUrl.apiUrl() , qs.stringify(data))
             .then(function(res){
                 const msg = res.data;
                 console.log(res);
@@ -171,7 +180,7 @@ export default {
     },
     created () {
         let _this = this;
-        axios.post("/msg/api/mapi.aspx",qs.stringify({m:"getrax"}))
+        axios.post(commonUrl.apiUrl(),qs.stringify({m:"getrax"}))
         .then(function(res){
             const msg = res.data;
             if(msg.Code == 1){
