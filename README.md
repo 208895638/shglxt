@@ -2,14 +2,23 @@
 
 > A Vue.js project
 
+## 本项目技术栈   vue+vue-router+element+proxy
+
 ## Build Setup
 
 ``` bash
+
+这是未打包过的版本  直接按照下述操作就可以在本地预览  暂未兼容移动端 以后有时间再整
 # install dependencies
 npm install
 
 # serve with hot reload at localhost:8080
 npm run dev
+
+
+#  login 
+
+
 
 # build for production with minification
 npm run build
