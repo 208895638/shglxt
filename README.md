@@ -21,30 +21,17 @@ npm run dev
 
 
 
-注册页面
-![Image text](https://github.com/208895638/shglxt/blob/master/static/aa/1.png)
-登陆页面
-![Image text](https://github.com/208895638/shglxt/blob/master/static/aa/2.png)
-登录验证
-![Image text](https://github.com/208895638/shglxt/blob/master/static/aa/3.png)
-登录成功
-![Image text](https://github.com/208895638/shglxt/blob/master/static/aa/4.png)
-我的账户
-![Image text](https://github.com/208895638/shglxt/blob/master/static/aa/5.png)
-账户充值
-![Image text](https://github.com/208895638/shglxt/blob/master/static/aa/6.png)
-资金明细
-![Image text](https://github.com/208895638/shglxt/blob/master/static/aa/7.png)
-支付二维码
-![Image text](https://github.com/208895638/shglxt/blob/master/static/aa/8.png)
-提现列表
-![Image text](https://github.com/208895638/shglxt/blob/master/static/aa/9.png)
-弹出提现页
-![Image text](https://github.com/208895638/shglxt/blob/master/static/aa/10.png)
-我的下级
-![Image text](https://github.com/208895638/shglxt/blob/master/static/aa/11.png)
-编辑我的下级
-![Image text](https://github.com/208895638/shglxt/blob/master/static/aa/12.png)
+![image](https://github.com/208895638/shglxt/blob/master/static/aa/1.png)
+![image](https://github.com/208895638/shglxt/blob/master/static/aa/2.png)
+![image](https://github.com/208895638/shglxt/blob/master/static/aa/3.png)
+![image](https://github.com/208895638/shglxt/blob/master/static/aa/4.png)
+![image](https://github.com/208895638/shglxt/blob/master/static/aa/5.png)
+![image](https://github.com/208895638/shglxt/blob/master/static/aa/6.png)
+![image](https://github.com/208895638/shglxt/blob/master/static/aa/7.png)
+![image](https://github.com/208895638/shglxt/blob/master/static/aa/8.png)
+![image](https://github.com/208895638/shglxt/blob/master/static/aa/9.png)
+![image](https://github.com/208895638/shglxt/blob/master/static/aa/11.png)
+![image](https://github.com/208895638/shglxt/blob/master/static/aa/12.png)
 
 # build for production with minification
 打包
