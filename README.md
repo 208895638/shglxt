@@ -16,10 +16,7 @@ npm install
 npm run dev
 
 
-#  login 
-页面预览
-
-
+#  
 
 ![image](https://github.com/208895638/shglxt/blob/master/static/aa/1.png)
 ![image](https://github.com/208895638/shglxt/blob/master/static/aa/2.png)
