@@ -30,6 +30,8 @@ npm run dev
 ![image](https://github.com/208895638/shglxt/blob/master/static/aa/11.png)
 ![image](https://github.com/208895638/shglxt/blob/master/static/aa/12.png)
 
+
+![image](https://github.com/ButBueatiful/dotvim/raw/master/screenshots/vim-screenshot.jpg)
 # build for production with minification
 打包
 npm run build
