@@ -1,16 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from "@/store"
-import HelloWorld from '@/components/HelloWorld'
-import login from "@/components/login"
-import register from "@/components/register"
-import index from "@/components/index"
-import aside from "@/components/aside"
-import account from "@/components/account"
-import detailOfCapital from "@/components/detailOfCapital"
-import recharge from "@/components/recharge"
-import widthdrawalsManagement from "@/components/widthdrawalsManagement"
-import subordinateManagement from "@/components/subordinateManagement"
 Vue.use(Router)
 const router = new Router({
   linkActiveClass: 'active',
@@ -19,7 +8,7 @@ const router = new Router({
     {
       path: '/',
       name: 'index',
-      component: index,
+      component: (resolve) => require(['@/components/index'], resolve),
       redirect: "/login",
       meta: { 
         requireAuth: true
@@ -28,7 +17,7 @@ const router = new Router({
         {
           path:'/account',
           name: 'account',
-          component: account,
+          component: (resolve) => require(['@/components/account'], resolve)
           // meta: { 
           //   requireAuth: true
           // }
@@ -36,7 +25,7 @@ const router = new Router({
         {
           path:'/detailOfCapital',
           name: 'detailOfCapital',
-          component: detailOfCapital,
+          component: (resolve) => require(['@/components/detailOfCapital'], resolve),
           // meta: { 
           //   requireAuth: true
           // }
@@ -44,7 +33,7 @@ const router = new Router({
         {
           path:'/recharge',
           name: 'recharge',
-          component: recharge,
+          component: (resolve) => require(['@/components/recharge'], resolve),
           // meta: { 
           //   requireAuth: true
           // }
@@ -52,7 +41,7 @@ const router = new Router({
         {
           path:'/widthdrawalsManagement',
           name: 'widthdrawalsManagement',
-          component: widthdrawalsManagement,
+          component: (resolve) => require(['@/components/widthdrawalsManagement'], resolve),
           // meta: { 
           //   requireAuth: true
           // }
@@ -60,7 +49,7 @@ const router = new Router({
         {
           path:'/subordinateManagement',
           name: 'subordinateManagement',
-          component: subordinateManagement,
+          component: (resolve) => require(['@/components/subordinateManagement'], resolve),
           // meta: { 
           //   requireAuth: true
           // }
@@ -70,22 +59,22 @@ const router = new Router({
     {
       path: '/login',
       name: 'login',
-      component: login
+      component: (resolve) => require(['@/components/login'], resolve),
     },
     {
       path: '/register',
       name: 'register',
-      component: register
+      component: (resolve) => require(['@/components/register'], resolve),
     },
     {
       path: '/aside',
       name: 'aside',
-      component: aside
+      component: (resolve) => require(['@/components/aside'], resolve),
     },
     {
       path: '/account',
       name: 'account',
-      component: account
+      component: (resolve) => require(['@/components/account'], resolve),
     }
   ]
 })
